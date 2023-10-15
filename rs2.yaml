@@ -1,0 +1,34 @@
+# Replica Set
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mywebsite-rs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mywebsite-label
+  template:
+    metadata:
+      name: mywebsite
+      labels:
+        app: mywebsite-label
+    spec:
+      containers:
+      - name: nginx-container
+        image: benadabankah/ourhttpdwebsite
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mywebsite-svc
+spec:
+  type: NodePort
+  selector:
+    app: mywebsite-label
+  ports:
+    - port: 80
+      targetPort: 80
