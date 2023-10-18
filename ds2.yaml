@@ -1,0 +1,32 @@
+# Daemon Set
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mywebsite--ds
+spec:
+  selector:
+    matchLabels:
+      app: mywebsite-label
+  template:
+    metadata:
+      name: mywebsite-pod
+      labels:
+        app: mywebsite-label
+    spec:
+      containers:
+        - name: mywebsite-c
+          image: benadabankah/ourhttpdwebsite
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mywebsite-svc
+spec:
+  type: NodePort
+  selector:
+    app: mywebsite-label
+  ports:
+    - port: 80
+      targetPort: 80
