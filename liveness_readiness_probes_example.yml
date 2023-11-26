@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: javawebapprs
+  name: mavenwebapp
 spec:
   replicas: 3
   selector:
     matchLabels:
-       app: javawebapp
+       app: mavenwebapp
   template:
     metadata:
-      name: javawebapppod
+      name: mavenwebappod
       labels:
-        app: javawebapp
+        app: mavenwebapp
     spec:
       containers:
-      - name: javawebappcontainer
-        image: benadabankah/java-web-app
+      - name: mavenwebappcontainer
+        image: benadabankah/m-web-app
         ports:
         - containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /java-web-app
+            path: /maven-web-application
             port: 8080
           initialDelaySeconds: 5
           timeoutSeconds: 1
           periodSeconds: 15
         livenessProbe:
           httpGet:
-            path: /java-web-app
+            path: /maven-web-application
             port: 8080
           initialDelaySeconds: 15
           timeoutSeconds: 1
