@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: interview
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+       app: interview
+  template:
+    metadata:
+      name: interviewpod
+      labels:
+        app: interview
+    spec:
+      containers:
+      - name: mavenwebappcontainer
+        image: benadabankah/devops-interview-app:latest
+        ports:
+        - containerPort: 8501
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8501
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8501
+          initialDelaySeconds: 15
+          timeoutSeconds: 1
+          periodSeconds: 15
+
+
+---
+# Node Port Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: interview
+  name: interview
+spec:
+  type: NodePort
+  ports:
+    - port: 8501
+      targetPort: 8501
