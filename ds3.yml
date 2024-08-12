@@ -1,0 +1,20 @@
+#kams
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-ds
+spec:
+  selector:
+    matchLabels:
+      app: ngix-application
+  template:
+    metadata:
+      name: nginx-pod-container
+      labels:
+        app: ngix-application
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
