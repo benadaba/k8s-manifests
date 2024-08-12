@@ -1,0 +1,43 @@
+#kams
+apiVersion: apps/v1
+kind: ReplicaSet 
+metadata:
+  name: maven-web-app
+spec:
+  replicas: 3
+  selector:
+    matchExpressions: #set based selector
+    - key: app
+      operator: In 
+      values:
+      - prod
+      - mvn_app_label
+  template:
+    metadata:
+      name: maven-web-app
+      labels:
+        app: mvn_app_label
+    spec:
+      containers:
+      - name: maven-web-app-container
+        image: benadabankah/m-web-app:latest
+        ports:
+        - containerPort: 8080
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+#kams
+apiVersion: v1
+kind: Service
+metadata:
+  name: maven-web-app-svc
+spec:
+  selector: 
+    app: mvn_app_label #app=mvn_app_label99999 | app=mvn_app_label
+  type: NodePort
+  ports:
+  - targetPort: 8080
+    port: 99
+    # nodePort: 30000  #30000- 32767
