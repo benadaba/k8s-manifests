@@ -1,24 +1,45 @@
+
+# kubectl delete  all --all
+# https://kubernetes.io/docs/concepts/storage/volumes/
+
 #https://kubernetes.io/docs/concepts/storage/volumes/
 apiVersion: v1
 kind: Pod
 metadata:
   name: test-webserver
+  labels:
+    app: test-webserver-label
 spec:
   containers:
   - name: test-webserver
-    image: registry.k8s.io/test-webserver:latest
-    volumeMounts:
+    image: benadabankah/kofi_html_website:v2
+    volumeMounts: # the volume which should be mounted into the container file system 
+               #docker run -v /host/data:/container/data  nginx 
     - mountPath: /var/local/aaa
       name: mydir
-    - mountPath: /var/local/aaa/1.txt
+    - mountPath: /var/newlocation/aaaTTTT/1.txt
       name: myfile
   volumes:
   - name: mydir
     hostPath:
       # Ensure the file directory is created.
       path: /var/local/aaa
-      type: DirectoryOrCreate
+      type: DirectoryOrCreate # if the directory does not exist on the host , kubernetes should create it. 
   - name: myfile
     hostPath:
       path: /var/local/aaa/1.txt
       type: FileOrCreate
+
+--- 
+#kams
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-svc
+spec:
+  selector:
+    app: test-webserver-label
+  type: NodePort
+  ports:
+  - port: 80 # devops/users will reach
+    targetPort: 80   # this is the container port that the service will target. 
