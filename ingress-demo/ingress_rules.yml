@@ -1,0 +1,49 @@
+#kams
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: springapp.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: / ## what do we mean by thatt?
+        backend:
+          service:
+            name: springapp
+            port:
+              number: 80
+  - host: mavenapp.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /maven-web-application ## what do we mean by thatt?
+        backend:
+          service:
+            name: mavenwebapp
+            port:
+              number: 8080
+  - host: blueapp.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: blue
+            port:
+              number: 80
+  - host: greenapp.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: green
+            port:
+              number: 80
