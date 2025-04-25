@@ -1,0 +1,47 @@
+#25th_April_2025
+# PODS , single and multi container pods
+kubectl create -f ns.yml
+   kubectl get namespace
+   kubectl describe namespace datapandas-ns
+   kubectl get nodes
+   cat > pd.yml
+   cat pd.yml
+   kubectl create -
+   kubectl create -h
+   kubectl run -h
+   kubectl run nginx --image=nginx
+   kubectl get pods
+   kubectl get pods -o wide
+   kubectl describe pod nginx
+   cat pd.yml
+   kubectl create -f pd.yml
+   kubectl get pods
+   kubectl delete pod nginx
+   kubectl get pods
+   kubectl create -f pd.yml
+   kubectl get pods
+   kubectl get pods -o wide
+   kubectl get nodes
+   kubectl get pods
+   vi pd.yml
+   vi mcp.yml
+   kubectl create -f mcp.yml
+   cat mcp.yml
+   vi mcp.yml
+   kubectl create -f mcp.yml
+   kubectl get pods
+   kubectl get pods -o wide
+   kubectl describe  pod  multi-container-pod
+   curl localhost
+   kubectl get pods
+   kubectl logs multi-container-pod
+   kubectl logs multi-container-pod -c container-serving-dates
+   ls
+   kubectl get nodes -o wide
+   kubectl get pods -o wide
+   kubectl exec -h
+   kubectl get pods
+  
+   kubectl exec multi-container-pod -c  container-serving-dates -- ls  /usr/share/nginx/html
+   kubectl exec multi-container-pod -c  container-serving-dates -- cat  /usr/share/nginx/html/index.html
+   history
