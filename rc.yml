@@ -1,19 +1,19 @@
 apiVersion: v1
-kind: ReplicationController
+kind: ReplicationController # defines the kind of kubernetes object
 metadata:
-  name: nginx-rc
-spec:
-  replicas: 1
-  selector:
+  name: nginx-rc # name you give to the replication controller
+spec:       # defines the desired state of the controller
+  replicas: 1  # specifies how many of the desired Pod replicas
+  selector:     # tells which Pods (template) that the controller has to manage.
     app: nginx
-  template:
-    metadata:
-      name: nginx
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx
+  template:   # defines the Pod configuration that be created and/or maintained by the RC
+    metadata:   # metadata of the pod
+      name: nginx   # the name you give to the Pod
+      labels:  
+        app: nginx # the labels you give to the Pod. THIS IS VERY IMPORTANT and it MUST match the selector value defined in the RC ( in this case, app=nginx)
+    spec:  # Pod specification ( what containers will run inside the pod)
+      containers: # list of containers of containers in the Pod
+      - name: nginx   # first container name 
+        image: nginx  # image of the first container
         ports:
-        - containerPort: 80
+        - containerPort: 80  # container Port . exposes port 80 inside the container 
