@@ -1,14 +1,15 @@
 # Cluster IP  Service
-apiVersion: v1
-kind: Service
+#kams mnemonic
+apiVersion: v1 #api version to use
+kind: Service  #kubernetes object called services
 metadata:  
-  name: my-clusterip-service
+  name: my-clusterip-service  #the name given to our service
 spec:
-  selector:    
+  selector:    # this tells Service which pod(s) it should route traffic to . ( in this example it matches any pod, that has the label "app:nginx")
     app: nginx
-  type: ClusterIP
+  type: ClusterIP  # the type of service. this is the default service type. It is the most secure. it exposes the pods on the internal IP address ragnes
   ports:  
   - name: http
     port: 80
-    targetPort: 80
-    protocol: TCP
+    targetPort: 80 # The port on the Pod (container port) that the Service will forward traffic
+    protocol: TCP # specifies the protocol being used. 
