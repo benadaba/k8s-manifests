@@ -6,7 +6,7 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchLabels:
+    matchLabels:  # equality-based selector
       app: mywebsite-label
   template:
     metadata:
