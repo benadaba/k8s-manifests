@@ -20,15 +20,15 @@ spec:
         - containerPort: 80
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: mywebsite-rc-svc
-spec:
-  type: NodePort
-  selector:
+apiVersion: v1  # is the core version for standard objects like Pods, Services and configMap
+kind: Service  # specifies the kubernetes objectd type
+metadata:    # information about the object
+  name: mywebsite-rc-svc  # is the unique nane of this Service within the namespace
+spec:          #contains the configuration and desired state of the Service
+  type: NodePort    # the service is NodePort ( a range of port from  30000 - 32767). to call the service you will <NodeIP>:<NodePort>
+  selector:   # this service will route traffic to pods that have the label "app=mywebsite-label"
     app: mywebsite-label
   ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30506
+    - port: 80  #The service's own port that it exposes inside the cluster
+      targetPort: 80  # The port on the pods the traffic is forwarded to
+      nodePort: 30506  # The port on each node that forwards traffic to the port: 80
