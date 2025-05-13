@@ -1,23 +1,23 @@
 # Deployments  Recreate
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-spec:
-  replicas: 2
-  strategy:
-    type: Recreate
-  selector:
+apiVersion: apps/v1  #This specifies the api version of the kubernetes object being created
+kind: Deployment  # defines the type of object being created
+metadata:  # metadata provides information about the object being created
+  name: nginx-deployment  # the unique name of the Deployment object within the kubernetes namespace
+spec:    # defines the desired state of the Deployment
+  replicas: 2  # specifies the number of Pods that should be running
+  strategy:  # defines how the pods are updated. 
+    type: Recreate # recreate means all existing pods are deleted before new ones are created during updates. the default strategy is "RollingUpdate" - gradual upgrade without downtime
+  selector:  #Tells the Deployment which Pods it manages based on their labels.
     matchLabels:
-      app: nginx
-  template:
-    metadata:
-      name: nginx-pod
-      labels:
-        app: nginx
-    spec:
+      app: nginx  # any Pod with "app: nginx" label will be managed by this Deployment
+  template:  # defines the Pod template that the Deployment uses to create Pods
+    metadata: #defines information about the pod
+      name: nginx-pod # name of the pod
+      labels:  #labels of the pod
+        app: nginx  # this pod has the label "app: nginx". this value must match the selector values of the Deployment.
+    spec:  # defines the actual container configuration inside the pod
       containers:
-      - name: nginx-container
-        image: nginx:1.7.9
-        ports:
-        - containerPort: 80
+      - name: nginx-container  #name of the container inside the pod
+        image: nginx:1.7.9 #image used for the container
+        ports:  #the ports exposed by the container
+        - containerPort: 80  # the containers exposes port 80
