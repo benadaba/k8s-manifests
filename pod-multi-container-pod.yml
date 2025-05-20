@@ -22,3 +22,6 @@ spec:
     volumeMounts:
     - name: shared-data-logs
       mountPath: /usr/share/nginx/html # where nginx will serve the written file.
+
+#how to watch the serving container serving the dates
+#kubectl exec multi-container-pod -c container-serving-dates -- cat /usr/share/nginx/html/index.html 
