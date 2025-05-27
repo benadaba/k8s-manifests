@@ -1,95 +1,95 @@
 # Complete Manifest Where in single yml we defined Deployment & Service for SpringApp & PVC(with default  StorageClass),ReplicaSet & Service For Mongo.
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1  # api version = apps/v1
+kind: Deployment     # kind of kuberntes object being used is Deployment
 metadata:
-  name: springappdeployment
+  name: springappdeployment  # the name of the deployment object being created is springappdeployment
 spec:
-  replicas: 2
+  replicas: 2   # Run 2 pods ( instances) of the app 
   selector:
     matchLabels:
-      app: springapp
-  template:
+      app: springapp   # tells the deployment to manage pods labelled with `app:springapp`
+  template:   # pod template with pod information
     metadata:
-      name: springapppod
+      name: springapppod  # name given to the pod
       labels:
-        app: springapp
+        app: springapp  # the pod label which the deployment will manage
     spec:
       containers:
-      - name: springappcontainer
-        image: benadabankah/spring-boot-mongo
+      - name: springappcontainer  # the name of the container is `springappcontainer`
+        image: benadabankah/spring-boot-mongo  # the image of the container
         ports:
-        - containerPort: 8080
-        env:
+        - containerPort: 8080 # the container/application exposes port 8080 inside the container ( where the Spring Boot app listens)
+        env:   # sets environment variables for the app to connect to MongoDB database
         - name: MONGO_DB_USERNAME
           value: devdb
         - name: MONGO_DB_PASSWORD
           value: devdb@123
         - name: MONGO_DB_HOSTNAME
-          value: mongo 
+          value: mongo  # this is the internal DNS name of the MongoDB service
 ---
 apiVersion: v1
-kind: Service
+kind: Service   #service for the Spring Boot app
 metadata:
-  name: springapp
+  name: springapp  #the name of teh service is `springapp`
 spec:
   selector:
-    app: springapp
+    app: springapp  # selector which is used to match the pod labels, and this will natch pods with labels: `app: springapp`
   ports:
-  - port: 80
-    targetPort: 8080
+  - port: 80  # the service can be reach on port 80. which means it routes traffic from port 80 to port 8080 (inside the container)
+    targetPort: 8080  # the containers port (8080)
   type: LoadBalancer
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolumeClaim  #creates a  persistent volume claim 
 metadata:
-  name: mongodbpvc 
+  name: mongodbpvc # its name is `mongodbpvc`
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce  #acccess mode
   resources:
     requests:
-      storage: 1Gi
+      storage: 1Gi  #reques 1Gi of storage. The default storage class will dynamically provision a PersistentVolume
 ---
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: ReplicaSet  # defines a replicaset named `mongodbrs`, used to maintain MongoDB pods
 metadata:
   name: mongodbrs
 spec:
-  selector:
+  selector:  # this selector select all pods with labels as `app: mongodb`
     matchLabels:
       app: mongodb
-  template:
+  template:   # the pod template
      metadata:
-       name: mongodbpod
+       name: mongodbpod  #name of the mongodb pods
        labels:
-         app: mongodb
+         app: mongodb  # the labels that the replicaset selector will seek to match
      spec:
        volumes:
        - name: pvc
-         persistentVolumeClaim:
+         persistentVolumeClaim:  #attaches the PVC named `mongodbpvc` to the pod as a volume. 
            claimName: mongodbpvc     
        containers:
-       - name: mongodbcontainer
-         image: mongo
+       - name: mongodbcontainer  # name of the container. the container runs the official `mongo` image
+         image: mongo  #image
          ports:
-         - containerPort: 27017
-         env:
+         - containerPort: 27017  # Exposes MongoDB's default port (27017) inside the container
+         env:  #set environment variables for the root username and password of the MongoDB 
          - name: MONGO_INITDB_ROOT_USERNAME
            value: devdb
          - name: MONGO_INITDB_ROOT_PASSWORD
            value: devdb@123
          volumeMounts:
-         - name: pvc
+         - name: pvc  # mounts the PVC to the `/data/db`, MongoDB's data directory, for persistence/storage
            mountPath: /data/db   
 ---
 apiVersion: v1
-kind: Service
+kind: Service  # defines a service for the mongo db
 metadata:
-  name: mongo
+  name: mongo  # name of the service is `mongo`
 spec:
-  type: ClusterIP
+  type: ClusterIP  # service is ClusterIP ( the default service and it only exposes the service inside the cluster)
   selector:
-    app: mongodb
+    app: mongodb  # uses this selector to match the pods called mongodb
   ports:
-  - port: 27017
-    targetPort: 27017
+  - port: 27017 # port for the service
+    targetPort: 27017 # port for the container.
