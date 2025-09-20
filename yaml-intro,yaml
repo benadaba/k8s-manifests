@@ -1,0 +1,54 @@
+#01. string is a text. key-value
+region: "eu-west-2"
+instance-type: t3.medium
+
+count: 2
+count-of-controlplanes: 1.5
+
+
+# dictionary
+FrankData:
+  name: Frank
+  course: DevOps
+  jobs: DevOpsEngineer
+  salary: £300K
+
+
+Ayoiuaofdaf:
+  afdfda: Nana
+  afdaf: DevOps
+  afda: DevOpsEngineer
+  saafaflary: £300K
+
+
+afdaf:
+  naafame: Nana
+  afd: DevOps
+  afda: DevOpsEngineer
+  afa: £300K
+
+# list 
+Engineers:
+  - name: Frank
+    course: DevOps
+    jobs: DevOpsEngineer
+    salary: £300K
+
+  - name: Nana
+    course: DevOps
+    jobs: DevOpsEngineer
+    salary: £300K
+
+  - afdaf:
+    naafame: Nana
+    afd: DevOps
+    afda: DevOpsEngineer
+    afa: £300K
+
+
+
+#SERVICES
+# ClusterIP = internal traffic
+# NodePort Service ( node) = allows external traffic to reach the cluster. can it open unlimited
+# LoadBalancer service = allows extrenal traffic. it is cloud's providers loadbalancer
+# ExternalName: service
