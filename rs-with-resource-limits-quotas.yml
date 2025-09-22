@@ -1,0 +1,28 @@
+# Replica Set
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mywebsite-rs
+spec:
+  replicas: 0
+  selector:
+    matchLabels:  # equality-based selector
+      app: mywebsite-label
+  template:
+    metadata:
+      name: mywebsite
+      labels:
+        app: mywebsite-label
+    spec:
+      containers:
+      - name: nginx-container
+        image: benadabankah/ourhttpdwebsite
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "200m"
+          limits:
+            memory: "2Gi"
+            cpu: "200m"
