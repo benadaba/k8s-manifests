@@ -1,3 +1,11 @@
 # k8s-manifests
 
-CC: LM
+ONline kubernetes Playgrounds
+https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/
+
+
+
+
+
+
+
